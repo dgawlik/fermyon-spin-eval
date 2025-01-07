@@ -1,0 +1,9 @@
+
+
+.spin/*
+
+factoriztion-statemachine/target/*
+factorization-statemachine/dist.js
+factorization-statemachine/node_modules/*
+
+factorization-compute/target/*

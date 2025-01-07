@@ -1,0 +1,35 @@
+spin_manifest_version = 2
+
+[application]
+authors = ["dominik"]
+description = "Heart of the factorization app"
+name = "factorization-statemachine"
+version = "0.1.0"
+
+[[trigger.http]]
+route = "/statemachine/..."
+component = "factorization-statemachine"
+
+[[trigger.http]]
+route = "/compute/..."
+component = "factorization-compute"
+
+[component.factorization-statemachine]
+key_value_stores = ["default"]
+source = "factorization-statemachine/target/factorization-statemachine.wasm"
+exclude_files = ["**/node_modules"]
+allowed_outbound_hosts = ["http://*.spin.internal"]
+
+[component.factorization-statemachine.build]
+command = "cd factorization-statemachine && npm run build"
+watch = ["factorization-statemachine/src/**/*.ts", "package.json"]
+
+
+[component.factorization-compute]
+source = "factorization-compute/target/wasm32-wasip1/release/factorization_compute.wasm"
+allowed_outbound_hosts = ["http://*.spin.internal"]
+
+[component.factorization-compute.build]
+command = "cd factorization-compute && cargo build --target wasm32-wasip1 --release"
+watch = ["factorization-compute/src/**/*.rs", "Cargo.toml"]
+
